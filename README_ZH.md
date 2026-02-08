@@ -2,7 +2,7 @@
 # NodeWarden
 English：[`README.md`](./README.md)
 
-一个运行在 **Cloudflare Workers** 上的 **Bitwarden 兼容**服务端实现，面向个人使用场景。
+一个运行在 **Cloudflare Workers** 上的 **Bitwarden 兼容**服务端实现。
 
 - 部署简单（不需要 VPS）
 - 功能聚焦

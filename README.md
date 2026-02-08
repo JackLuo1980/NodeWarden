@@ -1,7 +1,7 @@
 # NodeWarden
 中文文档：[`README_ZH.md`](./README_ZH.md)
 
-A **Bitwarden-compatible** server that runs on **Cloudflare Workers**, designed for personal use.
+A **Bitwarden-compatible** server that runs on **Cloudflare Workers**.
 
 - Simple deploy (no VPS)
 - Focused feature set

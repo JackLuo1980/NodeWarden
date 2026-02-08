@@ -5,6 +5,10 @@ export interface Env {
   JWT_SECRET: string;
 }
 
+// Sample JWT secret used by `.dev.vars.example`.
+// If runtime JWT_SECRET equals this value, treat it as unsafe.
+export const DEFAULT_DEV_SECRET = 'Enter-your-JWT-key-here-at-least-32-characters';
+
 // Attachment model
 export interface Attachment {
   id: string;

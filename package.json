@@ -7,7 +7,7 @@
   "main": "src/index.ts",
   "type": "module",
   "scripts": {
-    "dev": "wrangler dev -c wrangler.dev.toml",
+    "dev": "wrangler dev -c wrangler.toml",
     "deploymy": "wrangler deploy -c wrangler.my.toml",
     "deploy":  "wrangler deploy "
   },

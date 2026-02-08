@@ -1,12 +1,31 @@
-import { Env, User, ProfileResponse } from '../types';
+import { Env, User, ProfileResponse, DEFAULT_DEV_SECRET } from '../types';
 import { StorageService } from '../services/storage';
 import { AuthService } from '../services/auth';
 import { jsonResponse, errorResponse } from '../utils/response';
 import { generateUUID } from '../utils/uuid';
 
+function jwtSecretUnsafeReason(env: Env): 'missing' | 'default' | 'too_short' | null {
+  const secret = (env.JWT_SECRET || '').trim();
+  if (!secret) return 'missing';
+  if (secret === DEFAULT_DEV_SECRET) return 'default';
+  if (secret.length < 32) return 'too_short';
+  return null;
+}
+
 // POST /api/accounts/register (only used from setup page, not client)
 export async function handleRegister(request: Request, env: Env): Promise<Response> {
   const storage = new StorageService(env.VAULT);
+
+  // Enforce safe JWT_SECRET before allowing first registration.
+  const unsafe = jwtSecretUnsafeReason(env);
+  if (unsafe) {
+    const message = unsafe === 'missing'
+      ? 'JWT_SECRET is not set'
+      : unsafe === 'default'
+        ? 'JWT_SECRET is using the default/sample value. Please change it.'
+        : 'JWT_SECRET must be at least 32 characters';
+    return errorResponse(message, 400);
+  }
 
   // Check if already registered
   const isRegistered = await storage.isRegistered();

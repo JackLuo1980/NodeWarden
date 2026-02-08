@@ -89,6 +89,7 @@ export async function handleRequest(request: Request, env: Env): Promise<Respons
 
   // Route matching
   try {
+
     // Setup page (root)
     if (path === '/' && method === 'GET') {
       return handleSetupPage(request, env);
@@ -179,6 +180,12 @@ export async function handleRequest(request: Request, env: Env): Promise<Respons
     // Registration endpoint (no auth required, but only works once)
     if (path === '/api/accounts/register' && method === 'POST') {
       return handleRegister(request, env);
+    }
+
+    // If JWT_SECRET is not safely configured, block any other endpoints.
+    const secret = (env.JWT_SECRET || '').trim();
+    if (!secret || secret.length < 32) {
+      return errorResponse('Server configuration error: JWT_SECRET is not set or too weak', 500);
     }
 
     // All other API endpoints require authentication
